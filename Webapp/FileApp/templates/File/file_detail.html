@@ -1,0 +1,43 @@
+{% extends 'File/base.html' %}
+{% block content %}
+
+
+<div class="jumbotron mt-3 shadow-lg">
+<article class="media content-section shadow ">
+   <a href="{{ object.author.profile.image.url }} " target="_blank"> <img src="{{ object.author.profile.image.url }}  " alt="" class="article-img rounded-circle img-thumbnail img-fluid">
+   </a>
+    <div class="media-body">
+      <div class="">
+        <div class="d-flex justify-content-between">
+        <a class="mr-2 mt-0 mb-0  text-dark" href="{% url 'user-file' object.author.username  %}"><h3>{{ object.author }}</h3></a>
+        <small class="text-muted  text-align-right">{{ object.date_upload }}</small>
+        </div>
+        {% if object.author != user %}
+        <div class="form-group mt-0 pt-0 d-flex justify-content-end">          
+          <button class="btn btn-primary flex-last" type="submit"><i class="fas fa-download"></i> Downlaod</button>
+      </div>
+      {% endif %}
+       
+        <hr>
+        {% if object.author == user %}
+        <div>
+          <a href="{% url 'file-update' object.id %}" class="btn btn-secondary mt-1 mb-1">Update Post</a>
+          <a href="{% url 'file-delete' object.id %}" class="btn btn-danger mt-1 mb-1">Delte Post</a>
+        </div>
+        {% endif %}
+      </div>
+           <!-- <img src="" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+--->
+      <a href="{{ object.file.url }}"  download ><img src="{{ object.file.url }}" alt="" class="img-fluid "></a>
+      <a href="{{ object.file.url }}"  download class="text-dark"><h5>{{ object.file }}</h5></a>
+      
+      <h2>{{ object.FileName }}</h2>
+      <p class="article-content">{{ object.content }}</p>
+     
+      
+    </div>
+  </article>
+</div>      
+
+
+{% endblock content %}

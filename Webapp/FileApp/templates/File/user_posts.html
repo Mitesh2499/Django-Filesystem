@@ -1,0 +1,88 @@
+{% extends 'File/base.html' %}
+{% block content %}
+<h1 class="mb-3 text-white">Post by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
+{% for file in files|slice:"1" %}
+
+  
+<div class="media">
+  <img id="1" data-toggle="modal" class="article-img img-fluid" data-target="#myModal" src='{{ file.author.profile.image.url  }}' alt='' />
+
+<!--  <a href="{{ file.author.profile.image.url  }}" target="_blank"><img src="{{ file.author.profile.image.url  }}" alt="" class="user-img   img-fluid"></a>-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="account-heading font-weight-bold text-dark text-center">{{ file.author }}</h4>
+            </div>
+            <div class="modal-body text-center">
+                <img class="img-fluid" src="{{ file.author.profile.image.url  }}" width="300" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="media-body ">
+    <h2 class="account-heading font-weight-bold text-white">{{ file.author }}</h2>
+    
+   
+    <p class="font-weight-normal text-white text-light">{{ file.author.email }}</p>
+    
+</div>
+</div>
+
+
+{% endfor %}
+{% for f in files %}
+<div class="jumbotron mt-3 shadow-lg">
+<article class="media content-section  shadow">
+    <a href="{{ f.author.profile.image.url }}"><img src="{{ f.author.profile.image.url }}  " alt="" class="article-img rounded-circle img-thumbnail img-fluid">
+    </a>  
+    <div class="media-body ">
+      <div class="article-metadata d-flex justify-content-between">
+        <a class="mr-2 " href="{% url 'user-file' f.author.username  %}"><h3>{{ f.author }}</h3></a>
+        <small class="text-muted ">{{ f.date_upload }}</small>
+      </div>
+      <hr>
+      {% if f.file %}
+      <a href="{{ f.file.url }}"  download class="text-dark"><h5>{{ f.file }}</h5></a>
+      {% endif %}
+      
+      <h2><a class="article-title" href="{% url 'file-detail' f.id %}">{{ f.FileName }}</a></h2>
+      <p class="article-content">{{ f.content }}</p>
+    </div>
+  </article>
+</div>      
+          
+{% endfor %}
+
+
+
+
+{% if is_paginated %}
+  {% if page_obj.has_previous %}
+    <a href="?page=1" class="btn btn-outline-light p-2 mb-4">First</a>
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-light p-2  mb-4"><i class="fas fa-arrow-left"></i> previous</a>
+    
+  {% endif %}
+
+  
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+    <a href="?page={{ num }}" class="btn btn-light p-2 mb-4">{{ num }}</a>
+    
+    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+    <a href="?page={{ num }}" class="btn btn-outline-light  mb-4">{{ num }}</a>
+    {% endif %}    
+  {% endfor %}
+   
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-light p-2 mb-4"><i class="fas fa-arrow-right"></i> Next</a>
+  <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-light p-2  mb-4">Last</a>
+  
+   {% endif %} 
+{% endif %}
+
+{% endblock content %}
