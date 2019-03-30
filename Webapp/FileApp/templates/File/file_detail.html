@@ -27,10 +27,11 @@
         {% endif %}
       </div>
            <!-- <img src="" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
---->
+--->  {% if object.file %}
       <a href="{{ object.file.url }}"  download ><img src="{{ object.file.url }}" alt="" class="img-fluid "></a>
-      <a href="{{ object.file.url }}"  download class="text-dark"><h5>{{ object.file }}</h5></a>
       
+      <a href="{{ object.file.url }}"  download class="text-dark"><h5>{{ object.file }}</h5></a>
+      {% endif %}
       <h2>{{ object.FileName }}</h2>
       <p class="article-content">{{ object.content }}</p>
      
